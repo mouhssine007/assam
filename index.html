@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ASSAM Formation</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --purple: #4F3CC9;
+    --purple-light: #EEF0FF;
+    --purple-dark: #2D1FA3;
+    --wa: #25D366;
+    --wa-dark: #128C7E;
+    --sara: #4F3CC9;
+    --sara-bg: #F0EEFF;
+    --asmaa: #0F6E56;
+    --asmaa-bg: #E3F7F1;
+    --text: #111118;
+    --muted: #6B6B80;
+    --border: #E4E4EF;
+    --bg: #F7F7FC;
+    --white: #ffffff;
+    --radius: 14px;
+    --radius-sm: 8px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  /* Header */
+  .header {
+    background: var(--purple);
+    padding: 28px 24px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 220px; height: 220px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.06);
+  }
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; left: 30px;
+    width: 140px; height: 140px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+  }
+
+  .header-inner { position: relative; z-index: 1; max-width: 480px; margin: 0 auto; }
+
+  .logo-mark {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+
+  .logo-icon {
+    width: 38px; height: 38px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 16px;
+    color: #fff;
+    letter-spacing: -1px;
+  }
+
+  .logo-text {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: rgba(255,255,255,0.9);
+    letter-spacing: 0.5px;
+  }
+
+  .header h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.2;
+    margin-bottom: 10px;
+  }
+
+  .header-desc {
+    font-size: 14px;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.6;
+  }
+
+  /* Card */
+  .card {
+    background: var(--white);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    margin: -40px 16px 16px;
+    padding: 24px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .question-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 16px;
+    line-height: 1.3;
+  }
+
+  /* Course options */
+  .course-list { display: flex; flex-direction: column; gap: 8px; }
+
+  .course-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.18s;
+    -webkit-tap-highlight-color: transparent;
+    position: relative;
+  }
+
+  .course-item:hover { border-color: var(--purple); background: var(--purple-light); }
+
+  .course-item.selected-sara {
+    border-color: var(--sara);
+    background: var(--sara-bg);
+  }
+  .course-item.selected-asmaa {
+    border-color: var(--asmaa);
+    background: var(--asmaa-bg);
+  }
+
+  .radio-circle {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.18s;
+  }
+
+  .course-item.selected-sara .radio-circle {
+    border-color: var(--sara);
+    background: var(--sara);
+  }
+  .course-item.selected-asmaa .radio-circle {
+    border-color: var(--asmaa);
+    background: var(--asmaa);
+  }
+
+  .radio-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #fff;
+    opacity: 0;
+    transition: opacity 0.18s;
+  }
+  .course-item.selected-sara .radio-dot,
+  .course-item.selected-asmaa .radio-dot { opacity: 1; }
+
+  .course-name {
+    font-size: 14px;
+    color: var(--text);
+    flex: 1;
+    line-height: 1.3;
+  }
+
+  .agent-badge {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 20px;
+    letter-spacing: 0.3px;
+    flex-shrink: 0;
+  }
+
+  .badge-sara { background: rgba(79,60,201,0.12); color: var(--sara); }
+  .badge-asmaa { background: rgba(15,110,86,0.12); color: var(--asmaa); }
+
+  /* Divider */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 20px 0;
+  }
+
+  /* Input fields */
+  .field { margin-bottom: 14px; }
+
+  .field label {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .field input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    color: var(--text);
+    background: var(--white);
+    outline: none;
+    transition: border-color 0.18s;
+    -webkit-appearance: none;
+  }
+
+  .field input:focus { border-color: var(--purple); }
+  .field input::placeholder { color: #C0C0CC; }
+
+  /* Submit button */
+  .submit-btn {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+    letter-spacing: 0.3px;
+  }
+
+  .submit-btn:active { transform: scale(0.98); }
+
+  .submit-btn.sara-btn {
+    background: var(--sara);
+    color: #fff;
+  }
+  .submit-btn.sara-btn:hover { background: var(--purple-dark); }
+
+  .submit-btn.asmaa-btn {
+    background: var(--asmaa);
+    color: #fff;
+  }
+  .submit-btn.asmaa-btn:hover { background: #0a4f3d; }
+
+  .submit-btn.default-btn {
+    background: var(--purple);
+    color: #fff;
+  }
+  .submit-btn.disabled-btn {
+    background: var(--border);
+    color: var(--muted);
+    cursor: not-allowed;
+  }
+
+  .wa-icon {
+    width: 20px; height: 20px;
+    fill: #fff;
+  }
+
+  /* Agent info strip */
+  .agent-strip {
+    display: none;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: var(--radius-sm);
+    margin-bottom: 16px;
+    animation: fadeIn 0.25s ease;
+  }
+  .agent-strip.visible { display: flex; }
+  .agent-strip.sara-strip { background: var(--sara-bg); }
+  .agent-strip.asmaa-strip { background: var(--asmaa-bg); }
+
+  .agent-avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 14px;
+    color: #fff;
+    flex-shrink: 0;
+  }
+  .sara-strip .agent-avatar { background: var(--sara); }
+  .asmaa-strip .agent-avatar { background: var(--asmaa); }
+
+  .agent-info-text { flex: 1; }
+  .agent-info-name {
+    font-weight: 600;
+    font-size: 13px;
+  }
+  .sara-strip .agent-info-name { color: var(--sara); }
+  .asmaa-strip .agent-info-name { color: var(--asmaa); }
+
+  .agent-info-sub {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 1px;
+  }
+
+  .wa-badge {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--wa);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 20px 16px 36px;
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Success screen */
+  .success-screen {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 20px;
+    animation: fadeIn 0.3s ease;
+  }
+  .success-screen.visible { display: flex; }
+
+  .success-icon {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    background: var(--wa);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  .success-icon svg { width: 32px; height: 32px; fill: #fff; }
+
+  .success-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 10px;
+  }
+
+  .success-sub {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.6;
+    max-width: 280px;
+    margin-bottom: 24px;
+  }
+
+  .reset-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--muted);
+    background: none;
+    border: 1px solid var(--border);
+    padding: 8px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+  }
+
+  /* Error */
+  .error-msg {
+    font-size: 12px;
+    color: #D63031;
+    margin-top: 10px;
+    display: none;
+    animation: fadeIn 0.2s ease;
+  }
+  .error-msg.visible { display: block; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div class="logo-mark">
+      <div class="logo-icon">AS</div>
+      <span class="logo-text">ASSAM Formation</span>
+    </div>
+    <h1>Choisissez<br>votre parcours</h1>
+    <p class="header-desc">Formation professionnelle · Coaching scolaire & personnel</p>
+  </div>
+</div>
+
+<div class="card" id="main-card">
+
+  <!-- Form content -->
+  <div id="form-content">
+
+    <p class="question-title">Choisissez votre parcours</p>
+
+    <div class="course-list" id="course-list">
+
+      <!-- Sara's courses -->
+      <div class="course-item" data-agent="sara" data-course="Les langues étrangères" onclick="selectCourse(this)">
+        <div class="radio-circle"><div class="radio-dot"></div></div>
+        <span class="course-name">Les langues étrangères</span>
+        <span class="agent-badge badge-sara">Sara</span>
+      </div>
+
+      <div class="course-item" data-agent="sara" data-course="Formation en bureautique" onclick="selectCourse(this)">
+        <div class="radio-circle"><div class="radio-dot"></div></div>
+        <span class="course-name">Formation en bureautique</span>
+        <span class="agent-badge badge-sara">Sara</span>
+      </div>
+
+      <div class="course-item" data-agent="sara" data-course="Formation en programmation" onclick="selectCourse(this)">
+        <div class="radio-circle"><div class="radio-dot"></div></div>
+        <span class="course-name">Formation en programmation</span>
+        <span class="agent-badge badge-sara">Sara</span>
+      </div>
+
+      <div class="course-item" data-agent="asmaa" data-course="Agent Accompagnement au Grand Âge" onclick="selectCourse(this)">
+        <div class="radio-circle"><div class="radio-dot"></div></div>
+        <span class="course-name">Agent Accompagnement au Grand Âge</span>
+        <span class="agent-badge badge-asmaa">Asmaa</span>
+      </div>
+
+      <div class="course-item" data-agent="asmaa" data-course="Formation Assistant(e) médical(e)" onclick="selectCourse(this)">
+        <div class="radio-circle"><div class="radio-dot"></div></div>
+        <span class="course-name">Formation Assistant(e) médical(e)</span>
+        <span class="agent-badge badge-asmaa">Asmaa</span>
+      </div>
+
+      <div class="course-item" data-agent="asmaa" data-course="Formation Aide Comptable" onclick="selectCourse(this)">
+        <div class="radio-circle"><div class="radio-dot"></div></div>
+        <span class="course-name">Formation Aide Comptable</span>
+        <span class="agent-badge badge-asmaa">Asmaa</span>
+      </div>
+
+      <div class="course-item" data-agent="sara" data-course="Agent Ambulancier" onclick="selectCourse(this)">
+        <div class="radio-circle"><div class="radio-dot"></div></div>
+        <span class="course-name">Agent Ambulancier</span>
+        <span class="agent-badge badge-sara">Sara</span>
+      </div>
+
+      <div class="course-item" data-agent="sara" data-course="Formation enseignant privé" onclick="selectCourse(this)">
+        <div class="radio-circle"><div class="radio-dot"></div></div>
+        <span class="course-name">Formation enseignant privé</span>
+        <span class="agent-badge badge-sara">Sara</span>
+      </div>
+
+      <div class="course-item" data-agent="asmaa" data-course="Chariots Élévateurs" onclick="selectCourse(this)">
+        <div class="radio-circle"><div class="radio-dot"></div></div>
+        <span class="course-name">Chariots Élévateurs</span>
+        <span class="agent-badge badge-asmaa">Asmaa</span>
+      </div>
+
+    </div>
+
+
+  </div>
+
+  <!-- Success screen -->
+  <div class="success-screen" id="success-screen">
+    <div class="success-icon">
+      <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    </div>
+    <h2 class="success-title">WhatsApp ouvert !</h2>
+    <p class="success-sub" id="success-sub">Votre message a été préparé. Appuyez sur Envoyer dans WhatsApp pour contacter votre agent.</p>
+    <button class="reset-btn" onclick="resetForm()">Nouvelle inscription</button>
+  </div>
+
+</div>
+
+<div class="footer">
+  <strong>ASSAM Formation</strong><br>
+  Formation professionnelle et continue · Coaching scolaire, personnel & professionnel
+</div>
+
+<script>
+  const AGENTS = {
+    sara: {
+      name: 'Sara',
+      phone: '212600000001',
+      label: 'Langues & formations générales'
+    },
+    asmaa: {
+      name: 'Asmaa',
+      phone: '212600000002',
+      label: 'Coaching & formations spécialisées'
+    }
+  };
+
+  let selectedAgent = null;
+  let selectedCourse = null;
+
+  function selectCourse(el) {
+    document.querySelectorAll('.course-item').forEach(i => {
+      i.classList.remove('selected-sara', 'selected-asmaa');
+    });
+
+    selectedAgent = el.dataset.agent;
+    selectedCourse = el.dataset.course;
+    el.classList.add('selected-' + selectedAgent);
+
+    const agent = AGENTS[selectedAgent];
+    const msg = `Bonjour ${agent.name} 👋\n\nJe suis intéressé(e) par la formation suivante :\n\n📚 *${selectedCourse}*\n\nMerci de me contacter pour plus d'informations.`;
+    const url = `https://wa.me/${agent.phone}?text=${encodeURIComponent(msg)}`;
+
+    document.getElementById('form-content').style.display = 'none';
+    document.getElementById('success-screen').classList.add('visible');
+    document.getElementById('success-sub').textContent = `Votre message pour ${agent.name} est prêt. Appuyez sur Envoyer dans WhatsApp.`;
+
+    window.open(url, '_blank');
+  }
+
+  function resetForm() {
+    document.querySelectorAll('.course-item').forEach(i => i.classList.remove('selected-sara', 'selected-asmaa'));
+    selectedAgent = null;
+    selectedCourse = null;
+    document.getElementById('form-content').style.display = 'block';
+    document.getElementById('success-screen').classList.remove('visible');
+  }
+</script>
+</body>
+</html>
